@@ -1,0 +1,10 @@
+{% if latest_tweet_list %}
+    <ul>
+    {% for tweet in latest_tweet_list %}
+        <li><p> {{ tweet.user }}</p><a href="{% url 'THEtweet' tweet.id %}">{{ tweet.text }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No tweets are available.</p>
+{% endif %}
+<p>{{ latest_tweet_list }}</p>
