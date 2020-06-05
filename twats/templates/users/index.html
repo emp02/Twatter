@@ -1,20 +1,86 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    {% load static %}
+    <script src={% static "twats/processing.min.js" %}></script>
+    <style>
+        body {
+            background-color:black;
+            font-family:inherit;
+            font-size:14;
+            color:white;
+        }
+
+    </style>
     <title>index</title>
 </head>
 <body>
     {% if user.is_authenticated %}
-    <ul>
-    {% for tweet in twatList %}
-        <li><p> {{ tweet.user }}</p><a href="{% url 'THEtweet' tweet.id %}">{{ tweet.text }}</a></li>
-        <!-- add button thing here that sends to some url that then sends to views?-->
+    <nav class= "navbar navbar-expand-lg fixed-top bg-dark" style="font-size:25px;height:12%">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar" style="margin-top:13.5px;margin-bottom:13.5px;background-color:hotpink">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse bg-dark" id="collapsibleNavbar">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <div class="container">
+                <a class="nav-link" href="{% url 'index' %}" style="color:hotpink;">Home</a>
+              </div>
+            </li>
+            <li class="nav-item">
+              <div class="container">
+                <a class="nav-link" href="#" style="color:hotpink;">2011-2014</a>
+              </div>
+            </li>
+            <li class="nav-item">
+              <div class="container">
+                <a class="nav-link" href="#" style="color:hotpink;">DO NOT CLICK</a>
+              </div>
+            </li>
+            <li class="nav-item">
+              <div class="container">
+                <a class="nav-link" href="#" style="color:hotpink;">about me</a>
+              </div>
+            </li>
+          </ul>
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <div class="container">
+                <a class="nav-link" href="#" style="color:hotpink;">donate</a>
+              </div>
+            </li>
+          </ul>
+
+        </div>
+    </nav>
+    <div style="margin-top:120px;">
+      <a href="{% url 'myFeed' %}">See your feed</a>
+    </div>
+    {% if latest_tweet_list %}
+    {% for tweet in latest_tweet_list %}
+        <div class="container bg-primary">
+        <p>{{ tweet.user }}</p>
+        <div class="container bg-dark"><a href="{% url 'THEtweet' tweet.id %}">{{ tweet.text }}</a></div>
+        <p><form action="{% url 'likeTweet' %}" method="POST">
+            {% csrf_token %}
+            <button type="submit" name="tweet_id" value="{{ tweet.id }}" class="btn btn-primary">like!</button>
+        </form></p>
+        </div>
     {% endfor %}
     </ul>
-    
+
+    {% else %}
+    <p>No tweets are available.</p>
+    {% endif %}
+
     {% else %}
     <a href="{% url 'login' %}">LOG IN</a>
     {% endif %}
+
 </body>
 </html>

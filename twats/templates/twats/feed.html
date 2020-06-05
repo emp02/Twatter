@@ -1,10 +1,23 @@
-{% if latest_tweet_list %}
+<!DOCTYPE html> 
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>index</title>
+</head>
+<body>
+    {% if user.is_authenticated %}
     <ul>
-    {% for tweet in latest_tweet_list %}
+    {% for tweet in twatList %} 
         <li><p> {{ tweet.user }}</p><a href="{% url 'THEtweet' tweet.id %}">{{ tweet.text }}</a></li>
+        <!-- add button thing here that sends to some url that then sends to views?-->
     {% endfor %}
     </ul>
-{% else %}
-    <p>No tweets are available.</p>
-{% endif %}
-<p>{{ latest_tweet_list }}</p>
+    
+    {% else %}
+    <a href="{% url 'login' %}">LOG IN</a>
+    {% endif %}
+</body>
+</html>
+
+
+

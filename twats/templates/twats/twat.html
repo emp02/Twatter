@@ -1,1 +1,10 @@
 <h1>{{ tweet.text }}</h1>
+<h2>{{ numLikes }}</h2>
+<form action="{% url 'replyTweet' %}" method="POST">
+    {% csrf_token %}
+    <input type="text" id="replyText" name="replyText">
+    <button type="submit" name="tweet_id" value="{{ tweet.id }}" class="btn btn-primary">reply!</button>
+    {% for reply in replies %}
+    <div>{{ reply.user }}: {{ reply.text }}</div>
+    {% endfor %}
+</form>
